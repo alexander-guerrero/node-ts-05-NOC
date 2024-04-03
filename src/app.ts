@@ -1,4 +1,9 @@
+import { Server } from "./presentation/server";
 
-const myName: string = 'Alexander!';
+(() => {
+    main();
+})();
 
-console.log(myName);
+function main() {
+    Server.start();
+}
