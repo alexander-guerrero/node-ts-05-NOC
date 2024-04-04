@@ -1,4 +1,4 @@
-import { CronJob } from 'cron';
+import { CronService } from "./cron/cron-service";
 
 export class Server {
 
@@ -6,17 +6,13 @@ export class Server {
 
         console.log('Server started...');
 
-        const job = new CronJob(
-            '*/3 * * * * *', // cronTime
-            function () {
+        CronService.createJob(
+            '*/5 * * * * *', // cronTime
+            () => {
                 const date = new Date();
-                console.log('You will see this message every 3 seconds', date);
-            }, // onTick
-            null, // onComplete
-            true, // start
-            'America/Los_Angeles' // timeZone
+                console.log('You will see this message every 5 seconds', date);
+            } // onTick
         );
-        // job.start() is optional here because of the fourth parameter set to true.
 
     }
 
