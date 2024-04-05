@@ -1,3 +1,4 @@
+import { CheckService } from "../domain/use-cases/checks/check-service";
 import { CronService } from "./cron/cron-service";
 
 export class Server {
@@ -9,8 +10,7 @@ export class Server {
         CronService.createJob(
             '*/5 * * * * *', // cronTime
             () => {
-                const date = new Date();
-                console.log('You will see this message every 5 seconds', date);
+                new CheckService().execute('https://google.com');
             } // onTick
         );
 
