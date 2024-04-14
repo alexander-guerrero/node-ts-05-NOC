@@ -4,3 +4,6 @@ node_modules/
 
 # Ignorar archivos producidos por el build 
 dist/
+
+# Ignorar carpeta de logs 
+logs/
