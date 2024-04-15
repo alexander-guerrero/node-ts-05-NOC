@@ -8,12 +8,12 @@ interface CheckServiceUseCase {
 type SuccessCallback = () => void;
 type ErrorCallback = ( error: string ) => void;
 
-export class CheckService implements CheckServiceUseCase{
+export class CheckService implements CheckServiceUseCase {
 
     constructor(
         private readonly logRepository: LogRepository,
-        private readonly successCallback: SuccessCallback,
-        private readonly errorCallback: ErrorCallback
+        private readonly successCallback?: SuccessCallback,
+        private readonly errorCallback?: ErrorCallback
     ) {
         
     }
@@ -29,14 +29,14 @@ export class CheckService implements CheckServiceUseCase{
 
             const log = new LogEntity(`Service ${ url } is working`, LogSeverityLevel.low);
             this.logRepository.saveLog( log );
-            this.successCallback();
+            this.successCallback && this.successCallback();
 
             return true;
         } catch (error) {
             const errorMessage = `Service ${ url } is not working. ${ error }`;
             const log = new LogEntity(`${ errorMessage }`, LogSeverityLevel.high);
             this.logRepository.saveLog( log );
-            this.errorCallback( `${ errorMessage }` );
+            this.errorCallback && this.errorCallback( `${ errorMessage }` );
 
             return false;
         }
