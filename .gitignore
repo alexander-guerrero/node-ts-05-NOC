@@ -7,3 +7,6 @@ dist/
 
 # Ignorar carpeta de logs 
 logs/
+
+# Variables de entorno 
+.env
