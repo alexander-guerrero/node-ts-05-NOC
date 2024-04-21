@@ -16,8 +16,8 @@ export class Server {
 
         console.log('Server started...');
 
-        // Mandar email
-        const emailService = new EmailService();
+        // todo: Mandar email
+        const emailService = new EmailService(fileSystemLogRepository);
         emailService.sendEmailWithFileSystemLogs(
             [
                 'alex.guelu@gmail.com',
