@@ -1,5 +1,6 @@
 import { envs } from "../config/plugins/env.plugin";
 import { CheckService } from "../domain/use-cases/checks/check-service";
+import { SendEmailLogs } from "../domain/use-cases/email/send-email-logs";
 import { FileSystemDatasource } from "../infrastructure/datasources/file-system.datasource";
 import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository.impl";
 import { CronService } from "./cron/cron-service";
@@ -10,6 +11,8 @@ const fileSystemLogRepository = new LogRepositoryImpl(
     new FileSystemDatasource() // Si se requiere cambiar el data source, solo se cambia la instancia de la implementación 
 );
 
+const emailService = new EmailService();
+
 export class Server {
 
     public static start() {
@@ -17,8 +20,15 @@ export class Server {
         console.log('Server started...');
 
         // todo: Mandar email
-        const emailService = new EmailService(fileSystemLogRepository);
-        emailService.sendEmailWithFileSystemLogs(
+        // const emailService = new EmailService();
+        // emailService.sendEmailWithFileSystemLogs(
+        //     [
+        //         'alex.guelu@gmail.com',
+        //         'alex.guelu@outlook.com',
+        //         'lguerrero@ripley.com.pe'
+        //     ]
+        // );
+        new SendEmailLogs(emailService, fileSystemLogRepository).execute(
             [
                 'alex.guelu@gmail.com',
                 'alex.guelu@outlook.com',
