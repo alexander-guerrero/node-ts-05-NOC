@@ -11,5 +11,5 @@ logs/
 # Variables de entorno 
 .env
 
-# Ignorar archivos producidos por MongoDB 
-mongo/
+# Ignorar archivos producidos por MongoDB (raíz del proyecto) 
+/mongo/
