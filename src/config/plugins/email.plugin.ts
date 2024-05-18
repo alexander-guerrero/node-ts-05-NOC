@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { envs } from "../../config/plugins/env.plugin";
+import { envs } from "./env.plugin";
 
 interface SendMailOptions {
     to: string | string[];
@@ -13,25 +13,25 @@ interface Attachment {
     path: string;
 }
 
-export class EmailService {
-
-    private transporter = nodemailer.createTransport({
-        service: envs.MAILER_SERVICE,
-        auth: {
-            user:envs.MAILER_EMAIL,
-            pass: envs.MAILER_SECRET_KEY
-        }
-    });
+export class EmailPlugin {
 
     constructor() {}
 
-    async sendEmail(options: SendMailOptions): Promise<boolean> {
+    // Método que adapta la dependencia de "nodemailer" 
+    private async sendEmail( options: SendMailOptions ): Promise<boolean> {
 
         const { to, subject, htmlBody, attachments = [] } = options;
 
         try {
+            const transporter = nodemailer.createTransport({
+                service: envs.MAILER_SERVICE,
+                auth: {
+                    user: envs.MAILER_EMAIL,
+                    pass: envs.MAILER_SECRET_KEY
+                }
+            });
 
-            const sentInformacion = await this.transporter.sendMail({
+            const sentInformacion = await transporter.sendMail({
                 to,
                 subject,
                 html: htmlBody,
@@ -48,7 +48,7 @@ export class EmailService {
 
     }
 
-    async sendEmailWithFileSystemLogs( to: string | string[] ) {
+    public async sendEmailWithFileSystemLogs( to: string | string[] ) {
 
         const subject = 'Logs del servidor';
         const htmlBody = `
