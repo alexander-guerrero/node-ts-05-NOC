@@ -4,15 +4,18 @@ import { FileSystemDatasource } from "../infrastructure/datasources/file-system.
 import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository.impl";
 import { CronService } from "./cron/cron-service";
 import { EmailPlugin } from "../config/plugins/email.plugin";
+import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
+import { LogSeverityLevel } from "../domain/entities/log.entity";
 
 // Se trabaja con las implementaciones (LogRepositoryImpl, FileSystemDatasource) de las clases abstractas (LogRepository, LogDatasource) 
-const fileSystemLogRepository = new LogRepositoryImpl(
+const logRepository = new LogRepositoryImpl(
     new FileSystemDatasource() // Si se requiere cambiar el data source, solo se cambia la instancia de la implementación 
+    // new MongoLogDatasource()
 );
 
 export class Server {
 
-    public static start() {
+    public static async start() {
 
         console.log('Server started...');
 
@@ -25,13 +28,17 @@ export class Server {
         //         'lguerrero@ripley.com.pe'
         //     ]
         // );
-        new SendEmailLogs(fileSystemLogRepository).execute(
-            [
-                'alex.guelu@gmail.com',
-                'alex.guelu@outlook.com',
-                'lguerrero@ripley.com.pe'
-            ]
-        );
+        // new SendEmailLogs(logRepository).execute(
+        //     [
+        //         'alex.guelu@gmail.com',
+        //         'alex.guelu@outlook.com',
+        //         'lguerrero@ripley.com.pe'
+        //     ]
+        // );
+
+        // Prueba para mostrar los registros dependiendo del DataSource (FileSystemDatasource, MongoLogDatasource) 
+        const logs = await logRepository.getLogs(LogSeverityLevel.high);
+        console.log(logs);
 
         // CronService.createJob(
         //     '*/5 * * * * *', // cronTime
@@ -39,7 +46,7 @@ export class Server {
         //         // const url = 'http://localhost:3000';
         //         const url = 'https://google.com';
         //         new CheckService(
-        //             fileSystemLogRepository,
+        //             logRepository,
         //             () => console.log(`${ url } is ok`),
         //             ( error ) => console.log( error )
         //         ).execute(url);
