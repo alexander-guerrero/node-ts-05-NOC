@@ -13,3 +13,6 @@ logs/
 
 # Ignorar archivos producidos por MongoDB (raíz del proyecto) 
 /mongo/
+
+# Ignorar archivos producidos por PostgreSQL (raíz del proyecto) 
+/postgres/
