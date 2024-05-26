@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.8' # Docker has made this line obsolete, since version 25.05
 
 services:
 
