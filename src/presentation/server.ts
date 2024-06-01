@@ -6,11 +6,13 @@ import { CronService } from "./cron/cron-service";
 import { EmailPlugin } from "../config/plugins/email.plugin";
 import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
 import { LogSeverityLevel } from "../domain/entities/log.entity";
+import { PostgresLogDatasource } from '../infrastructure/datasources/postgres-log.datasource';
 
 // Se trabaja con las implementaciones (LogRepositoryImpl, FileSystemDatasource) de las clases abstractas (LogRepository, LogDatasource) 
 const logRepository = new LogRepositoryImpl(
-    new FileSystemDatasource() // Si se requiere cambiar el data source, solo se cambia la instancia de la implementación 
+    // new FileSystemDatasource() // Si se requiere cambiar el data source, solo se cambia la instancia de la implementación 
     // new MongoLogDatasource()
+    new PostgresLogDatasource()
 );
 
 export class Server {
@@ -36,8 +38,8 @@ export class Server {
         //     ]
         // );
 
-        // Prueba para mostrar los registros dependiendo del DataSource (FileSystemDatasource, MongoLogDatasource) 
-        const logs = await logRepository.getLogs(LogSeverityLevel.high);
+        // Prueba para mostrar los registros dependiendo del DataSource (FileSystemDatasource, MongoLogDatasource, PostgresLogDatasource) 
+        const logs = await logRepository.getLogs(LogSeverityLevel.low);
         console.log(logs);
 
         // CronService.createJob(
