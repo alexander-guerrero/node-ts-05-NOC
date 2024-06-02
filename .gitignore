@@ -16,3 +16,8 @@ logs/
 
 # Ignorar archivos producidos por PostgreSQL (raíz del proyecto) 
 /postgres/
+
+# Ignorar archivos producidos por configuraciones del testing (raíz del proyecto) 
+/coverage/
+/mongo-test/
+/postgres-test/
