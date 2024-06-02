@@ -7,11 +7,24 @@ import { EmailPlugin } from "../config/plugins/email.plugin";
 import { MongoLogDatasource } from "../infrastructure/datasources/mongo-log.datasource";
 import { LogSeverityLevel } from "../domain/entities/log.entity";
 import { PostgresLogDatasource } from '../infrastructure/datasources/postgres-log.datasource';
+import { CheckServiceMultiple } from '../domain/use-cases/checks/check-service-multiple';
 
 // Se trabaja con las implementaciones (LogRepositoryImpl, FileSystemDatasource) de las clases abstractas (LogRepository, LogDatasource) 
-const logRepository = new LogRepositoryImpl(
-    // new FileSystemDatasource() // Si se requiere cambiar el data source, solo se cambia la instancia de la implementación 
-    // new MongoLogDatasource()
+// const logRepository = new LogRepositoryImpl(
+//     // new FileSystemDatasource() // Si se requiere cambiar el data source, solo se cambia la instancia de la implementación 
+//     // new MongoLogDatasource()
+//     new PostgresLogDatasource()
+// );
+
+const fsLogRepository = new LogRepositoryImpl(
+    new FileSystemDatasource()
+);
+
+const mongoLogRepository = new LogRepositoryImpl(
+    new MongoLogDatasource()
+);
+
+const postgresLogRepository = new LogRepositoryImpl(
     new PostgresLogDatasource()
 );
 
@@ -39,16 +52,16 @@ export class Server {
         // );
 
         // Prueba para mostrar los registros dependiendo del DataSource (FileSystemDatasource, MongoLogDatasource, PostgresLogDatasource) 
-        const logs = await logRepository.getLogs(LogSeverityLevel.low);
-        console.log(logs);
+        // const logs = await logRepository.getLogs(LogSeverityLevel.low);
+        // console.log(logs);
 
         // CronService.createJob(
         //     '*/5 * * * * *', // cronTime
         //     () => {
         //         // const url = 'http://localhost:3000';
         //         const url = 'https://google.com';
-        //         new CheckService(
-        //             logRepository,
+        //         new CheckServiceMultiple(
+        //             [fsLogRepository, mongoLogRepository, postgresLogRepository],
         //             () => console.log(`${ url } is ok`),
         //             ( error ) => console.log( error )
         //         ).execute(url);
