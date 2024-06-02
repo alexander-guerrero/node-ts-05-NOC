@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-interface ConnectionOptios {
+interface ConnectionOptions {
     mongoUrl: string;
     dbName: string;
 }
 
 export class MongoDatabase {
 
-    static async connect( options: ConnectionOptios ) {
+    static async connect( options: ConnectionOptions ) {
 
         const { mongoUrl, dbName } = options;
 
@@ -15,9 +15,10 @@ export class MongoDatabase {
             await mongoose.connect(mongoUrl, {
                 dbName // Mismo nombre de "key" y "value", no es necesario poner "dbName: dbName"
             });
-            console.log('MongoDB connected!');
+            // console.log('MongoDB connected!');
+            return true;
         } catch (error) {
-            console.log('MongoDB connection error');
+            // console.log('MongoDB connection error');
             throw error;
         }
 
