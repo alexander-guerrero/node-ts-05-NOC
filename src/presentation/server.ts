@@ -55,18 +55,18 @@ export class Server {
         // const logs = await logRepository.getLogs(LogSeverityLevel.low);
         // console.log(logs);
 
-        // CronService.createJob(
-        //     '*/5 * * * * *', // cronTime
-        //     () => {
-        //         // const url = 'http://localhost:3000';
-        //         const url = 'https://google.com';
-        //         new CheckServiceMultiple(
-        //             [fsLogRepository, mongoLogRepository, postgresLogRepository],
-        //             () => console.log(`${ url } is ok`),
-        //             ( error ) => console.log( error )
-        //         ).execute(url);
-        //     } // onTick
-        // );
+        CronService.createJob(
+            '*/5 * * * * *', // cronTime
+            () => {
+                // const url = 'http://localhost:3000';
+                const url = 'https://google.com';
+                new CheckServiceMultiple(
+                    [fsLogRepository, mongoLogRepository, postgresLogRepository],
+                    () => console.log(`${ url } is ok`),
+                    ( error ) => console.log( error )
+                ).execute(url);
+            } // onTick
+        );
 
     }
 
