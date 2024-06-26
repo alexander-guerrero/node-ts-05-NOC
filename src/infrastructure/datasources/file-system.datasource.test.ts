@@ -118,4 +118,29 @@ describe('Pruebas en FileSystemDatasource', () => {
 
     });
 
+    test('should not throw an error if path exists', () => {
+        
+        new FileSystemDatasource();
+        new FileSystemDatasource();
+
+        expect(true).toBeTruthy();
+
+    });
+
+    test('should throw an error if severity level is not defined', async () => {
+        
+        const logDataSource = new FileSystemDatasource();
+        const customSeverityLevel = 'CRITICAL' as LogSeverityLevel;
+
+        try {
+            await logDataSource.getLogs(customSeverityLevel);
+            expect(true).toBeFalsy();
+        } catch (error) {
+            const errorString = `${error}`;
+            // console.log(errorString);
+            expect(errorString).toContain(`${customSeverityLevel} not implemented`);
+        }
+
+    });
+
 });
